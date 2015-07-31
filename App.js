@@ -1,9 +1,9 @@
 Ext.define('CustomApp', {
-    extend: 'Rally.app.App',
-    componentCls: 'app',
-    launch: function() {
+	extend: 'Rally.app.App',
+	componentCls: 'app',
+	launch: function() {
 
-    	this.add({ 
+		this.add({ 
 			xtype: 'textfield',
 			fieldLabel: 'Search',
 			name:'Search',
@@ -17,23 +17,23 @@ Ext.define('CustomApp', {
 					var grid = this.down('rallygrid');
 
 					if (!_.isUndefined(grid)&&!_.isNull(grid)) {
-                        store = grid.getStore();
-                        store.clearFilter(true);
-                    	store.filter({
-                        	property: 'Description',
-                        	operator: 'contains',
-                        	value: newValue
-                        });
+						store = grid.getStore();
+						store.clearFilter(true);
+						store.filter({
+							property: 'Description',
+							operator: 'contains',
+							value: newValue
+						});
 					}
 				}
 			}
 		});
 
-    	this.loadAStore();
-    },
+		this.loadAStore();
+	},
 
-    loadAStore : function() {
-    	var me = this;
+	loadAStore : function() {
+		var me = this;
 
 		Ext.create('Rally.data.wsapi.Store', {
 			model: 'subscription',
@@ -45,26 +45,26 @@ Ext.define('CustomApp', {
 
 					// load the revisionhistory model and use it to the load the rev history object.
 					Rally.data.ModelFactory.getModel({
-					    type: 'RevisionHistory',
-					    success: function(model) {
-					        model.load(sub.get("RevisionHistory"), {
-							    fetch: true,
-							    callback: function(result, operation) {
-							    	console.log("result",result);
-							    	// create a grid, using the Revisions collection store
-							    	me.add({
-							    		xtype : 'rallygrid',
-							    		store : result.getCollection("Revisions"),
-							    		columnCfgs: [
-				                            'RevisionNumber',
-				                            'CreationDate',
-				                            'Description',
-				                            'User'
-				                        ],
-							    	});
-							    }
+						type: 'RevisionHistory',
+						success: function(model) {
+							model.load(sub.get("RevisionHistory"), {
+								fetch: true,
+								callback: function(result, operation) {
+									console.log("result",result);
+									// create a grid, using the Revisions collection store
+									me.add({
+										xtype : 'rallygrid',
+										store : result.getCollection("Revisions"),
+										columnCfgs: [
+											'RevisionNumber',
+											'CreationDate',
+											'Description',
+											'User'
+										],
+									});
+								}
 							});
-					    }
+						}
 					});
 				}
 			},
@@ -73,5 +73,5 @@ Ext.define('CustomApp', {
 				// { property : "FormattedID", operator : "=", value : "US17" }
 			]
 		});
-    }
+	}
 });
