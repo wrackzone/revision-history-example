@@ -19,11 +19,15 @@ Ext.define('CustomApp', {
 					if (!_.isUndefined(grid)&&!_.isNull(grid)) {
 						store = grid.getStore();
 						store.clearFilter(true);
-						store.filter({
-							property: 'Description',
-							operator: 'contains',
-							value: newValue
-						});
+						if (newValue!=="") {
+							store.filter({
+								property: 'Description',
+								operator: 'contains',
+								value: newValue
+							});
+						} else {
+							store.load();
+						}
 					}
 				}
 			}
