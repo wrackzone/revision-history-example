@@ -12,4 +12,5 @@ AppTemplate is released under the MIT license.  See the file [LICENSE](./LICENSE
 
 You can find the documentation on our help [site.](https://help.rallydev.com/apps/2.0/doc/)
 
-(https://raw.githubusercontent.com/wrackzone/revision-history-example/master/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/wrackzone/revision-history-example/master/screenshot.png)
+
