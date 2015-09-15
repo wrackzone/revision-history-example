@@ -49,12 +49,22 @@
 		var me = this;
 
 		Ext.create('Rally.data.wsapi.Store', {
-			model: 'subscription',
+			// model: 'subscription',
+			model : me.getSetting("type"),
 			autoLoad: true,
 			listeners : {
 				load: function(store, data, success) {
 					// subscription is the first object
-					var sub = _.first(data);
+					var sub = null;
+					if (me.getSetting("type")==="subscription") {
+						sub = _.first(data);
+					} else {
+						// get current workspace
+						console.log("Workspace",me.getContext().getWorkspace());
+						sub = _.first(_.filter(data,function(d) {
+							return me.getContext().getWorkspace().ObjectID === d.get("ObjectID");
+						}));
+					}
 
 					// load the revisionhistory model and use it to the load the rev history object.
 					Rally.data.ModelFactory.getModel({
@@ -86,7 +96,38 @@
 				// { property : "FormattedID", operator : "=", value : "US17" }
 			]
 		});
-	}
+	},
+
+	getSettingsFields: function() {
+        var me = this;
+
+        var typesStore = new Ext.data.ArrayStore({
+            fields: ['type'],
+            data : [['workspace'],['subscription']]
+        }); 
+
+        return [ {
+                name: 'type',
+                xtype: 'combo',
+                store : typesStore,
+                valueField : 'type',
+                displayField : 'type',
+                queryMode : 'local',
+                forceSelection : true,
+                boxLabelAlign: 'after',
+                fieldLabel: 'Search the revision history of this type',
+                margin: '0 0 15 50',
+                labelStyle : "width:200px;",
+                afterLabelTpl: 'Revision History Type'
+            }
+		] ;
+    },
+    config: {
+        defaultSettings: {
+            type : "subscription"
+        }
+    }
+
 });
 
 
